@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<link type="text/css" rel="styleSheet"
+      th:href="@{/css/bootstrap.css}"/>
+<body>
+<div th:include="public :: head"></div>
+<div class="container">
+    <div th:if="${#fields.hasErrors('${user.id}')}">
+        <div class="alert alert-danger" th:errors="${user.id}" ></div>
+    </div>
+    <div th:if="${#fields.hasErrors('${user.name}')}">
+        <div class="alert alert-danger" th:errors="${user.name}"></div>
+    </div>
+    <div th:if="${#fields.hasErrors('${user.age}')}">
+        <div class="alert alert-danger" th:errors="${user.age}" ></div>
+    </div>
+    <div th:if="${#fields.hasErrors('${user.email}')}">
+        <div class="alert alert-danger" th:errors="${user.email}" ></div>
+    </div>
+    <div class="row">
+        <form th:action="${user.id}==0?'/addUser':'/editUser'" th:object="${user}" id="myForm"
+              method="post" enctype="multipart/form-data">
+            <div class="row">
+                <div class="form-group">
+                    <label for="id">ID</label> <input class="form-control" id="id"
+                                                      th:field="*{id}" th:readonly="${user.id}==0?'false':'readonly'"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label for="name" th:text="#{name}"></label> <input
+                        class="form-control" id="name" th:field="*{name}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label for="age" th:text="#{age}">年龄</label> <input type="number"
+                                                                        class="form-control" id="age"
+                                                                        th:field="*{age}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label for="mobile" th:text="#{mobile}">手机号</label> <input
+                        class="form-control" id="mobile" th:field="*{mobile}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label for="email" th:text="#{email}">邮箱</label> <input
+                        class="form-control" id="email" th:field="*{email}"/>
+                </div>
+            </div>
+            <div class="row">
+                <label for="file" th:text="#{file}"></label> <input id="file"
+                                                                    type="file" name="file"/>
+            </div>
+            <div class="row" style="margin-top: 20px;">
+                <input type="submit" th:value="#{submit}" class="btn btn-primary"/>
+            </div>
+
+        </form>
+    </div>
+</div>
+</body>
+</html>

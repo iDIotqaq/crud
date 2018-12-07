@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>首页</title>
+    <link type="text/css" rel="styleSheet" th:href="@{/css/bootstrap.css}"/>
+    <style>
+
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle !important;
+        }
+    </style>
+</head>
+<body>
+<div th:include="public :: head"></div>
+<div class="container">
+    <div class="row">
+
+    </div>
+    <div class="row">
+        <a th:href="@{/add}" style="color: white">
+            <button type="button"
+                    class="btn btn-primary" th:text="#{add}"></button>
+        </a>
+        <!-- <a th:href="@{/show/(lang=1)}"
+                 style="color: white">
+         <button type="button"
+                 class="btn btn-primary">中文
+         </button>
+     </a> <a th:href="@{/show/(lang=2)}"
+             style="color: white">
+         <button type="button"
+                 class="btn btn-primary">english
+         </button>
+     </a>-->
+    </div>
+
+    <div class="row" style="margin-top: 10px;">
+        <table border="1" class="table table-bordered table-hover">
+            <tr>
+                <th>id</th>
+                <th th:text="#{name}"></th>
+                <th th:text="#{age}"></th>
+                <th th:text="#{mobile}"></th>
+                <th th:text="#{email}"></th>
+                <th th:text="#{pic}"></th>
+                <th colspan="2" th:text="#{operate}"></th>
+            </tr>
+
+            <tr th:each="user:${userList}">
+                <td th:text="${user.id}" ></td>
+                <td th:text="${user.name}" ></td>
+                <td th:text="${user.age}" ></td>
+                <td th:text="${user.mobile}" ></td>
+                <td th:text="${user.email}" ></td>
+                <td><img class="img-circle" th:src="@{/imgs/{img}(img=${user.img})}"
+                         width="100px" height="100px"/></td>
+                <td style="line-height:100px; "><a th:href="@{/edit/{id}(id=${user.id})}">
+                    <button
+                            type="button" class="btn btn-info" th:text="#{edit}"></button>
+                </a></td>
+                <td style="line-height:100px; "><input class="btn btn-danger" type="button"
+                                                       th:value="#{delete}" onclick="Delete(this)"
+                                                       th:id="${user.id}"/></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<script th:src="@{/js/jquery-3.2.1.js}" type="text/javascript"></script>
+<script th:src="@{/js/bootstrap.js}" type="text/javascript"></script>
+<script type="text/javascript">
+    /*<![CDATA[*/
+    function Delete(obj) {
+        //alert(obj.name);
+        var id = obj.id;
+        if (confirm("确实要删除吗？")) {
+            $.post('/delete', {
+                id: id
+            }, function (data) {
+                $(obj).parent().parent().remove();
+                alert(data.msg);
+            });
+        }
+    }
+
+    /*]]>*/
+</script>
+
+</body>
+</html>
